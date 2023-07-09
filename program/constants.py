@@ -8,7 +8,7 @@ MODE = "DEVELOPMENT"
 ABORT_ALL_POSITIONS = False
 
 # Find Cointegrated Pairs
-FIND_COINTEGRATED = True
+FIND_COINTEGRATED = False
 
 # Place Trades
 PLACE_TRADES = True
@@ -22,7 +22,7 @@ WINDOW = 21
 # Tresholds - Opening
 MAX_HALF_LIFE = 24
 ZSCORE_THRESH = 1.5
-USD_PER_TRADE = 50
+USD_PER_TRADE = 100
 USD_MIN_COLLATERAL = 1800
 
 # Thresholds - Closing
