@@ -4,11 +4,16 @@ from decouple import config
 #  !!!! SELECT MODE !!!
 MODE = "DEVELOPMENT"
 
+
 #close all open positions and orders
 ABORT_ALL_POSITIONS = False
 
+
 # Find Cointegrated Pairs
 FIND_COINTEGRATED = False
+
+# Manage exits
+MANAGE_EXITS = True
 
 # Place Trades
 PLACE_TRADES = True

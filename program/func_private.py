@@ -25,37 +25,55 @@ def is_open_positions(client, market):
 # Check order status
 def check_order_status(client, order_id):
     order = client.private.get_order_by_id(order_id)
-    return order.data["order"]['status']
+    if order.data:
+        if "order" in order.data.keys():
+            return order.data["order"]['status']
+    return "FAILED"
+    
+
+        
 
 
 # Place market order
 def place_market_order(client, market, side, size, price, reduce_only):
-    # Get Position id
-    account_response = client.private.get_account()
-    position_id = account_response.data["account"]["positionId"]
+    try:    
+        
+        # Get Position id
+        account_response = client.private.get_account()
+        position_id = account_response.data["account"]["positionId"]
 
-    # Get espiration time
-    server_time = client.public.get_time()
-    expiration = datetime.fromisoformat(server_time.data["iso"].replace('Z','+00:00')) + timedelta(seconds=70)
+        # Get espiration time
+        server_time = client.public.get_time()
+        expiration = datetime.fromisoformat(server_time.data["iso"].replace('Z','+00:00')) + timedelta(seconds=70)
 
-    # Place an order
+        # Place an order
 
-    placed_order = client.private.create_order(
-        position_id=position_id,
-        market=market,
-        side=side,
-        order_type="MARKET",
-        post_only=False,
-        size=size,
-        price=price,
-        limit_fee='0.015',
-        expiration_epoch_seconds=expiration.timestamp(),
-        time_in_force="FOK",
-        reduce_only=reduce_only,
-    )
+        placed_order = client.private.create_order(
+            position_id=position_id,
+            market=market,
+            side=side,
+            order_type="MARKET",
+            post_only=False,
+            size=size,
+            price=price,
+            limit_fee='0.015',
+            expiration_epoch_seconds=expiration.timestamp(),
+            time_in_force="FOK",
+            reduce_only=reduce_only,
+        )
 
-    #return result
-    return placed_order.data
+        #return result
+        return placed_order.data
+
+    
+    
+
+    except Exception as e:
+        # Handle other exceptions
+        print(f"An error occurred: {e}")
+        # Optionally, you can log the error or perform other actions as needed
+
+
 
 
 # Abort all open positions
@@ -111,6 +129,7 @@ def abort_all_positions(client):
                 accept_price,
                 True
             )
+
 
             #append the result 
             close_orders.append(order)

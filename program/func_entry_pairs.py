@@ -26,6 +26,19 @@ def open_positions(client):
 
     # Initialise container for BotAgent results
     bot_agents = []
+    
+    # Opening JSON file
+    
+    try:
+        open_positions_file = open("/home/ieh000/git/DYDX/program/bot_agents.json")
+        open_positions_dict = json.load(open_positions_file)
+
+        for p in open_positions_dict:
+            bot_agents.append(p)
+
+       # print(bot_agents)
+    except:
+        bot_agents = []
 
     # Find ZScore triggers
     for index, row in df.iterrows():
@@ -47,7 +60,7 @@ def open_positions(client):
 
             #Establish if potential trade
             if abs(z_score) >= ZSCORE_THRESH:
-
+                print(f"Checking for new position: Entry pair threshhold z_score: {z_score}, base: {base_market}, quote: {quote_market}")
                 # Ensure like for like not already opened
                 is_base_open = is_open_positions(client, base_market)
                 is_quote_open = is_open_positions(client, quote_market)
@@ -100,11 +113,60 @@ def open_positions(client):
                         if free_collateral < USD_MIN_COLLATERAL:
                             break
 
-                        # Create Bot Agent
-                        print(base_market, base_side, base_size, accept_base_price)
-                        print(quote_market, quote_side, quote_size, accept_quote_price)
-                        exit(1)
+                        #Check selection is working
+                        print("Buying: :", base_market, base_side, base_size, accept_base_price)
+                        print("Buying: :", quote_market, quote_side, quote_size, accept_quote_price)
+                        
+                        
+                        #user_input = input()
 
+                        #if user_input.lower() == 'x':
+                        #    print("Exiting the program...")
+                        #    exit(0)
+
+                        #print("Continuing execution...")
+                        
+                        # Create Bot Agent
+                        bot_agent = BotAgent(
+                            client,
+                            market_1=base_market,
+                            market_2=quote_market,
+                            base_side=base_side,
+                            base_size=base_size,
+                            base_price=accept_base_price,
+                            quote_side=quote_side,
+                            quote_size=quote_size,
+                            quote_price=accept_quote_price,
+                            accept_failsafe_base_price=accept_failsafe_base_price,
+                            z_score=z_score,
+                            half_life=half_life,
+                            hedge_ratio=hedge_ratio,
+                        )
+
+                        # Open Trades
+                        bot_open_dict = bot_agent.open_trades()
+
+                        # Handle success in opening trades
+                            
+                        try:   
+                            if bot_open_dict["pair_status"] =="LIVE":
+
+                                # Append to list of bot agents
+                                bot_agents.append(bot_open_dict)
+                                del(bot_open_dict)
+
+                                #confirm live status in print
+                                print("Bought: :", base_market, quote_market, "trade status: Live")
+                                print("----")
+                        except Exception as e:
+                                # Handle other exceptions
+                                print(f"An error occurred opening trades: {e}")
+                                # 
+    # Save agents
+    print(f"Success: {len(bot_agents)} Manage open trade checked")
+    if len(bot_agents) > 0:
+        with open("/home/ieh000/git/DYDX/program/bot_agents.json", "w") as f:
+            json.dump(bot_agents, f)
 
 
 

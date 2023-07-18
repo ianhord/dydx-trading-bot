@@ -1,14 +1,19 @@
 from datetime import datetime, timedelta
-
+from decimal import Decimal, ROUND_HALF_UP
 
 # Format number
-def format_number(curr_num, match_num):
+def format_number(number_str, multiple_str):
+    number = Decimal(number_str)
+    multiple = Decimal(multiple_str)
+    rounded_number = (number / multiple).quantize(Decimal('1'), rounding=ROUND_HALF_UP) * multiple
+
+    return str(rounded_number)
 
     """ 
         Give current number an example of number with decimals desired
         Function will return the correcntly formatted string
 
-    """
+    
     curr_num_string = f"{curr_num}"
     match_num_string = f"{match_num}"
 
@@ -19,7 +24,7 @@ def format_number(curr_num, match_num):
         return curr_num_string
     else:
         return f"{int(curr_num)}"
-
+    """
 
 # Format time
 def format_time(timestamp):

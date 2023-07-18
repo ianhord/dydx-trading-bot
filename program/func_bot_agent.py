@@ -81,7 +81,7 @@ class BotAgent:
             return "failed"
         
         #Guard: If order not filled wait till order expiration
-        if order_status != "FAILED":
+        if order_status != "FILLED":
             time.sleep(15)
             order_status = check_order_status(self.client, order_id)
 
@@ -106,6 +106,7 @@ class BotAgent:
 
         # Print status
         print("---")
+
         print(f"{self.market_1}: Placing first order...")
         print(f"Side: {self.base_side}, Size: {self.base_size}, Price: {self.base_price}")
         print("---")
@@ -145,7 +146,7 @@ class BotAgent:
         print(f"Side: {self.quote_side}, Size: {self.quote_size}, Price: {self.quote_price}")
         print("---")
 
-        # Place Base Order
+        # Place Quote Order
         try:
             quote_order = place_market_order(
                 self.client,
