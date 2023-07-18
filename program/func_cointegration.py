@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from statsmodels.tsa.stattools import coint
 import statsmodels.api as sm
+import os
 from constants import MAX_HALF_LIFE, WINDOW
 
 # Calculate Half Life
@@ -76,9 +77,14 @@ def store_cointegration_results(df_market_prices):
                     "half_life": half_life,
                 })
 
+    # Get current file path
+    current_file_path = os.path.abspath(__file__)
+
+    csv_file_path = os.path.join(current_file_path, "cointegrated_pairs.csv")
+    
     # Create and save DataFrame
     df_critera_met = pd.DataFrame(criteria_met_pairs)
-    df_critera_met.to_csv("cointegrated_pairs.csv")
+    df_critera_met.to_csv(csv_file_path)
     del df_critera_met
 
     #Return result

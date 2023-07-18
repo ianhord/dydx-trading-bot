@@ -7,7 +7,7 @@ from decimal import Decimal
 import json
 import time 
 import pprint as pprint
-
+import os
 # Close positions
 def manage_trade_exits(client):
 
@@ -16,13 +16,19 @@ def manage_trade_exits(client):
         Based upon criteria set in constants
     
     """
+    # Get current file path
+    current_file_path = os.path.abspath(__file__)
+
+    json_file_path = os.path.join(current_file_path, "bot_agents.json")
+    
+
 
     # Initialise saving output
     save_output = []
 
     # Opening JSON file
     try:
-        open_positions_file = open("/home/ieh000/git/DYDX/program/bot_agents.json")
+        open_positions_file = open(json_file_path)
         open_positions_dict = json.load(open_positions_file)
     except:
         return "No local dictionary of open positions"
@@ -221,7 +227,7 @@ def manage_trade_exits(client):
 
     # Save remaining items
     print(f"{len(save_output)} Items remaining. Saving file ...")
-    with open("/home/ieh000/git/DYDX/program/bot_agents.json", "w") as f:
+    with open(json_file_path, "w") as f:
         json.dump(save_output, f)
 
 

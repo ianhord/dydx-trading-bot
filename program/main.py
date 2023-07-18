@@ -6,10 +6,16 @@ from func_cointegration import store_cointegration_results
 from func_entry_pairs import open_positions
 from func_exit_pairs import manage_trade_exits
 
+import os
 import json
 
 if __name__ == "__main__":
 
+    # Get current file path
+    current_file_path = os.path.abspath(__file__)
+
+    json_file_path = os.path.join(current_file_path, "bot_agents.json")
+   
     # Connect to client
     try:
         print("Connecting to client...")
@@ -24,10 +30,10 @@ if __name__ == "__main__":
         try:
             print("Closing all positions...")
             close_orders = abort_all_positions(client)
-            with open("/home/ieh000/git/DYDX/program/bot_agents.json", "w") as f:
+            with open(json_file_path, "w") as f:
                 json.dump([], f)
         except Exception as e:
-            print("Error closing all positions: ", e)
+            print("Error closing json file positions: ", e)
             exit(1)
 
     # Find Cointegrated Pairs
