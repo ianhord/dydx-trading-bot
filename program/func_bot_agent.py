@@ -1,7 +1,7 @@
 from func_private import place_market_order, check_order_status
 from datetime import datetime, timedelta
 import time
-
+from func_messaging import send_message
 from pprint import PrettyPrinter
 
 # Class: Agent for managing checking trades
@@ -194,7 +194,9 @@ class BotAgent:
                     print("Unexpected Error - second side of trade did not open and was unable to close first")
                     print(order_status_close_order)
 
-                    # !!! CONSIDER SENDING MESSAGE HERE - second side of trade did not open and was unable to close first
+                    # Send message
+                    send_message("Failed to execute trade. Code Red!! Error Code 100")
+
 
                     # ABORT
                     exit(1)
@@ -205,7 +207,8 @@ class BotAgent:
                 print("Unexpected Error")
                 print(order_status_close_order)
                 
-                # !!! CONSIDER SENDING MESSAGE HERE
+                # Send message
+                send_message("Failed to execute trade. Code Red!! Error Code 101")
                 
                  # ABORT
                 exit(1)

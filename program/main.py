@@ -13,9 +13,9 @@ import json
 # Main function
 if __name__ == "__main__":
 
-    success = send_message("another great message from the interweb")
-    print(success)
-    exit(1)
+    #Message on start
+    send_message("Bot started successfully")
+    
 
     # Get current file path
     current_file_path = os.path.abspath(__file__)
@@ -30,6 +30,8 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
         print("Error connecting to client: ", e)
+        # Send message
+        send_message("Failed to connect to connect to client. Code Red!! Error Code 102")
         exit(1)
 
     #Abort all open positions
@@ -40,6 +42,8 @@ if __name__ == "__main__":
             with open(json_file_path, "w") as f:
                 json.dump([], f)
         except Exception as e:
+            # Send message
+            send_message(f"Failed to close all positions. Code Red!! Error Code 103: {e}")
             print("Error closing json file positions: ", e)
             exit(1)
 
@@ -51,6 +55,8 @@ if __name__ == "__main__":
             print("Fetching market prices, please allow 3 mins...")
             df_market_prices = construct_market_prices(client)
         except Exception as e:
+            # Send message
+            send_message(f"Failed to construct market prices.Error Code 104: {e}")
             print("Error constructing market prices: ", e)
             exit(1)
 
@@ -63,6 +69,8 @@ if __name__ == "__main__":
                 print("Error saving cointegrated pairs")
                 exit(1)
         except Exception as e:
+            # Send message
+            send_message(f"Failed to save cointegrated pairs.Error Code 105: {e}")
             print("Error saving cointegrated pairs: ", e)
             exit(1)
 
@@ -74,6 +82,8 @@ if __name__ == "__main__":
                 print("Managing exits ...")
                 manage_trade_exits(client)
             except Exception as e:
+                # Send message
+                send_message(f"Failed to manage position exits.Error Code 105: {e}")
                 print("Error managing exiting positions: ", e)
                 exit(1)
 
@@ -84,5 +94,7 @@ if __name__ == "__main__":
                 print("Placing trades for opening positions ...")
                 open_positions(client)
             except Exception as e:
+                # Send message
+                send_message(f"Failed to place opening trades.Error Code 106: {e}")
                 print("Error trading pairs: ", e)
                 exit(1)
