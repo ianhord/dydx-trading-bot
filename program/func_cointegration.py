@@ -79,8 +79,9 @@ def store_cointegration_results(df_market_prices):
 
     # Get current file path
     current_file_path = os.path.abspath(__file__)
+    current_folder_path = os.path.dirname(current_file_path)
 
-    csv_file_path = os.path.join(current_file_path, "cointegrated_pairs.csv")
+    csv_file_path = os.path.join(current_folder_path, "cointegrated_pairs.csv")
     
     # Create and save DataFrame
     df_critera_met = pd.DataFrame(criteria_met_pairs)

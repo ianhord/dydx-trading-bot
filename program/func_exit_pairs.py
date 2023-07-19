@@ -18,9 +18,11 @@ def manage_trade_exits(client):
     """
     # Get current file path
     current_file_path = os.path.abspath(__file__)
+    current_folder_path = os.path.dirname(current_file_path)
 
-    json_file_path = os.path.join(current_file_path, "bot_agents.json")
-    
+    json_file_path = os.path.join(current_folder_path, "bot_agents.json")
+
+   
 
 
     # Initialise saving output

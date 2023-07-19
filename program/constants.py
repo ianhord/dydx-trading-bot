@@ -6,11 +6,11 @@ MODE = "DEVELOPMENT"
 
 
 #close all open positions and orders
-ABORT_ALL_POSITIONS = False
+ABORT_ALL_POSITIONS = True
 
 
 # Find Cointegrated Pairs
-FIND_COINTEGRATED = False
+FIND_COINTEGRATED = True
 
 # Manage exits
 MANAGE_EXITS = True
@@ -64,3 +64,6 @@ HTTP_PROVIDER_MAINNET = "https://eth-mainnet.g.alchemy.com/v2/l5ERUhkyV_uGAxOvO5
 HTTP_PROVIDER_TESTNET = "https://eth-goerli.g.alchemy.com/v2/fsVnt2P-LCJIpykDVlaCW1qGNGx23pzO"
 HTTP_PROVIDER = HTTP_PROVIDER_MAINNET if MODE == "PRODUCTION" else HTTP_PROVIDER_TESTNET
 
+#TELEGRAM TOKENS
+TELEGRAM_TOKEN = "6049391290:AAEt1YzrmDhdF98i6lT2Zo6HMf0JuNbbxM8"
+TELEGRAM_CHAT_ID = "6264970060"

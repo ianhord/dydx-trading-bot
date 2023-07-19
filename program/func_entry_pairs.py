@@ -21,9 +21,11 @@ def open_positions(client):
     """
     # Get current file path
     current_file_path = os.path.abspath(__file__)
+    current_folder_path = os.path.dirname(current_file_path)
 
-    json_file_path = os.path.join(current_file_path, "bot_agents.json")
-    csv_file_path = os.path.join(current_file_path, "cointegrated_pairs.csv")
+    json_file_path = os.path.join(current_folder_path, "bot_agents.json")
+
+    csv_file_path = os.path.join(current_folder_path, "cointegrated_pairs.csv")
 
 
     # Load cointegrated pairs

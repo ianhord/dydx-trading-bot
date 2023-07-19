@@ -5,16 +5,23 @@ from func_public import construct_market_prices
 from func_cointegration import store_cointegration_results
 from func_entry_pairs import open_positions
 from func_exit_pairs import manage_trade_exits
+from func_messaging import send_message
 
 import os
 import json
 
+# Main function
 if __name__ == "__main__":
+
+    success = send_message("another great message from the interweb")
+    print(success)
+    exit(1)
 
     # Get current file path
     current_file_path = os.path.abspath(__file__)
+    current_folder_path = os.path.dirname(current_file_path)
 
-    json_file_path = os.path.join(current_file_path, "bot_agents.json")
+    json_file_path = os.path.join(current_folder_path, "bot_agents.json")
    
     # Connect to client
     try:
